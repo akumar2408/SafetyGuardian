@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  gateway:
+    build:
+      context: ./backend-go
+    ports:
+      - "8080:8080"
+    depends_on:
+      - vision
+      - audio
+      - qa
+      - translation
+
+  vision:
+    build:
+      context: ./services/python
+      dockerfile: Dockerfile.vision
+    ports:
+      - "5001:5001"
+
+  audio:
+    build:
+      context: ./services/python
+      dockerfile: Dockerfile.audio
+    ports:
+      - "5002:5002"
+
+  qa:
+    build:
+      context: ./services/python
+      dockerfile: Dockerfile.qa
+    ports:
+      - "5003:5003"
+
+  translation:
+    build:
+      context: ./services/python
+      dockerfile: Dockerfile.translation
+    ports:
+      - "5004:5004"
