@@ -1,0 +1,33 @@
+FROM python:3.9-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the entire service directory so that shared modules and
+# requirements are available inside the image
+COPY . .
+
+# Install system dependencies needed by audio and vision models.  ffmpeg
+# and libsndfile are required for torchaudio/soundfile to process
+# inputs.  Afterwards install Python dependencies including
+# transformers and gunicorn for production serving.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ffmpeg libsndfile1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir \
+        flask \
+        gunicorn \
+        transformers \
+        torch \
+        torchvision \
+        torchaudio \
+        pillow \
+        soundfile \
+        requests
+
+# Ensure output is unbuffered so logs appear immediately
+ENV PYTHONUNBUFFERED=1
+
+# Use gunicorn to run the Flask app with multiple workers.  Bind to
+# port 5001 which is exposed in docker-compose.
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:5001", "vision_service:app"]
