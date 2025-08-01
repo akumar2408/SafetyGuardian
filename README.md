@@ -47,14 +47,5 @@ This skeleton defines the following REST endpoints:
 * `POST /api/translate` → translates text into a target language.
 * `POST /api/tts` → synthesizes speech from text.
 
-## Future work
 
-This repository contains skeleton code. To make it production‑ready you
-would need to:
 
-* Load appropriate Hugging Face models in each service (e.g. YOLO or
-  SigLIP for object detection, Whisper for ASR, Qwen2‑VL for QA).
-* Add authentication and rate limiting in the gateway.
-* Implement streaming ingestion for real‑time video/audio feeds.
-* Integrate a front‑end built with React and TypeScript to display
-  detections and reports.
