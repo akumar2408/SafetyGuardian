@@ -54,3 +54,16 @@ func audioClassifyHandler(w http.ResponseWriter, r *http.Request) {
 func detectHandler(w http.ResponseWriter, r *http.Request) {
     proxyRequest(w, r, "http://vision:5001/detect")
 }
+
+
+func init() {
+    http.HandleFunc("/health", healthHandler)
+    http.HandleFunc("/api/register", registerHandler)
+    http.HandleFunc("/api/login", loginHandler)
+    http.HandleFunc("/api/detect", detectHandler)
+    http.HandleFunc("/api/qa", qaHandler)
+    http.HandleFunc("/api/summarize", summarizeHandler)
+    http.HandleFunc("/api/translate", translateHandler)
+    http.HandleFunc("/api/tts", ttsHandler)
+    http.HandleFunc("/api/classify_audio", audioClassifyHandler)
+}
